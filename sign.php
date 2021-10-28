@@ -50,36 +50,7 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $("#submitbtn").click(function(){
-               $.ajax({
-                   url:"sign.php",
-                   type:"post",
-                   data:$("#form").serialize(),
-                   sucess:function(cbf){
-                       alert(cbf);
-                       $("#form")[0].reset();
-                   }
-               })
-            })
-        })
-        
-    </script>
-    <script type="text/javascript">
-        function checkEmail(){
-            var email= document.getElementById("txtemail");
-            var filter=/^([a-zA-Z0-9\._]+)@([a-zA-Z0-9])+.([a-z]+)(.[a-z]+)?$/
-            if(!filter.test(email.value)){
-                alert("plz enter a valid email")
-                email.focus;
-                return false;
-            }else{
-                alert(" email success")
-            }
-        }
-    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
 </head>
 <body>
     <div class="container">
@@ -90,29 +61,87 @@ if (isset($_POST['submit'])) {
                         <h2 class="text-center">Signup</h2>
                             <div class="form-group col-12 col-md-12 ">
                                   
-                                <input type="text"name="user"class="form-control" placeholder="user"required>
+                                <input type="text"name="user" onblur="checkname()" id="txtname" class="form-control" placeholder="user">
                             </div>
                             <div class="form-group col-12 col-md-12">
                                
-                                <input type="text" id="txtemail"name="email"class="form-control"placeholder="email"required>
+                                <input type="text" onblur="checkemail()"  id="txtemail" name="email"class=" email_id form-control"placeholder="email">
                             </div>
 		
                             <div class="form-group col-12 col-md-12">
                                 
-                                <input type="text"name="password"class="form-control"placeholder="password"required>
+                                <input type="text" onblur="checkpassword()" id="txtpassword" name="password" class="form-control"placeholder="password">
                             </div>
                             <div class="form-group col-12 col-md-12">
                                 
-                                <input type="password"name=" confirmpassword"class="form-control"placeholder="confirmpassword"required>
+                                <input type="password"name=" confirmpassword"class="form-control"placeholder="confirmpassword">
                             </div>
-                            <button onclick="javascript:checkEmail()" name="submit"  id="submitbtn"type="submit"class="btn btn-primary text-center">SIGN UP</button>
+                            <button  name="submit" onclick="submit1()"  id="submitbtn"type="submit"class="btn btn-primary text-center">SIGN UP</button>
 			    		</form>
                     </div>
             </div>
     </div>
     
 </body>
+<script type="text/javascript">
 
+function submit1(){
+        var email = checkemail();
+        var name = checkname();
+        var password = checkpassword();
+      
+        if(email == true || name == true || password == true)
+        {
+            $.ajax({ 
+                url:"sign.php",
+                type:"post",
+                data:$("#form").serialize(),
+                sucess:function(cbf){
+                    alert(cbf);
+                    $("#form")[0].reset();
+                }
+            });
+
+        }else{
+            return false;           
+        }
+    }
+    function checkemail(){
+        var email= document.getElementById("txtemail");
+            var filter=/^([a-zA-Z0-9\._]+)@([a-zA-Z0-9])+.([a-z]+)(.[a-z]+)?$/
+            if(!filter.test(email.value)){
+               /* alert("plz enter a valid email")*/
+            }else{
+                alert("sucess");
+            }
+             
+    } 
+        // name
+        function checkname(){
+            var name = document.getElementById("txtname").value;
+            console.log(name, "name");
+            if(name == '' ||name == null){
+                    alert(" fill the name field ");
+                    return false;
+            }else{
+                alert(" name is valid");
+                return true;
+            }
+
+
+        } 
+            //password
+        function checkpassword(){
+            var password = document.getElementById("txtpassword").value;
+            if(password == '' ||password==null){
+              /*  alert(" fill the password field  ");*/
+                return false;
+            }else{
+                alert(" password valid");
+                return true;
+            }
+        }     
+</script>
 
 <style>
     body {

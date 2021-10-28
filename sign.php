@@ -119,7 +119,6 @@ function submit1(){
         // name
         function checkname(){
             var name = document.getElementById("txtname").value;
-            console.log(name, "name");
             if(name == '' ||name == null){
                     alert(" fill the name field ");
                     return false;
